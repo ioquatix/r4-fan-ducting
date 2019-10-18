@@ -4,6 +4,7 @@ use <fan.scad>;
 use <zcube.scad>;
 
 size = 140;
+space = 2.5;
 
 module cutout(s = 0) {
 	translate([0, 0, -2]) cylinder(d=size+s, h=4);
@@ -20,14 +21,11 @@ module bracket() {
 
 module mesh() {
 	intersection() {
-		render()
-		translate([0, 0, 0.2]) union() {
-			for (x = [-size/2:2.5:size/2]) {
-				translate([x, 0, 0]) zcube([0.4*2, size, 0.2*3]);
-			}
-			
-			for (y = [-size/2:2.5:size/2]) {
-				translate([0, y, 0]) zcube([size, 0.4*2, 0.2*3]);
+		for (i = [1:8]) {
+			translate([0, 0, 0.2*i]) rotate([0, 0, (360/12)*i]) union() {
+				for (x = [-size/2:space:size/2]) {
+					translate([x, 0, 0]) zcube([0.4, size, 0.2]);
+				}
 			}
 		}
 		
