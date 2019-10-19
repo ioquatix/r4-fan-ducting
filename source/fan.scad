@@ -2,12 +2,30 @@
 use <bolts.scad>;
 use <zcube.scad>;
 
+SPACINGS = [
+	[140, 124.5],
+	[120, 105],
+	[92, 83],
+	[80, 72],
+	[70, 60],
+	[60, 50],
+	[50, 40],
+	[40, 32],
+	[30, 24],
+];
+
 module fan(diameter = 140, thickness = 25) {
 	translate([-diameter/2, -diameter/2, -thickness]) color("blue") cube([diameter, diameter, thickness]);
 }
 
-module fan_holes(diameter = 140, spacing = 124.5, z = 10) {
-	outset = spacing / 2;
+module fan_hole(diameter = 140, spacing = undef, z = 10) {
+	outset = (spacing ? spacing : lookup(diameter, SPACINGS)) / 2;
+	
+	translate([outset, outset, z]) children();
+}
+
+module fan_holes(diameter = 140, spacing = undef, z = 10) {
+	outset = (spacing ? spacing : lookup(diameter, SPACINGS)) / 2;
 	
 	translate([outset, outset, z]) children();
 	translate([-outset, outset, z]) children();
