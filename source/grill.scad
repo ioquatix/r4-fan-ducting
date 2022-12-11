@@ -28,14 +28,14 @@ module bracket() {
 		rcube([size, size, height], d=10, f=1);
 		fan_holes(size, z=0) hole(5, height);
 		cutout(inset);
-		mesh(f=width/2, inset=inset/2, t=0.00001);
+		mesh(f=width*2, inset=inset/2, t=thickness/10);
 	}
 }
 
 module mesh(f = 0, t = 0, inset = 0) {
 	intersection() {
 		for (i = [0:(height/thickness)-3]) {
-			translate([0, 0, 0.2*(i+1)]) rotate([0, 0, angle*i]) union() {
+			translate([0, 0, thickness*(i+1)]) rotate([0, 0, angle*i]) union() {
 				color("red")
 				for (x = [0:space:size/2 - (inset + space)]) {
 					translate([x, 0, 0]) zcube([width + f, size, thickness + t]);
@@ -48,7 +48,6 @@ module mesh(f = 0, t = 0, inset = 0) {
 	}
 }
 
-render()
 union() {
 	mesh();
 	bracket();
